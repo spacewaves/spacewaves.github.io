@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Space Waves – Play the Free Online Wave Runner Game</title>
+<meta name="description" content="Play Space Waves free in your browser. Hold to climb, release to dive and steer a glowing wave through neon tunnels. Three difficulty modes, no download, works on phone and PC.">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://spacewaves.github.io/">
+<meta name="theme-color" content="#0d1020">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Space Waves">
+<meta property="og:title" content="Space Waves – Free Online Wave Runner Game">
+<meta property="og:description" content="Steer a neon wave through shrinking tunnels. One button, endless challenge. Play instantly in your browser.">
+<meta property="og:url" content="https://spacewaves.github.io/">
+<meta property="og:image" content="https://spacewaves.github.io/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Space Waves – Free Online Wave Runner Game">
+<meta name="twitter:description" content="Hold to climb, release to dive. Survive the neon tunnel as long as you can.">
+<meta name="twitter:image" content="https://spacewaves.github.io/og-image.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230d1020'/%3E%3Cpath d='M4 24 L14 8 L18 18 L28 6' stroke='%235ef2e0' stroke-width='3' fill='none'/%3E%3C/svg%3E">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+{"@type":"WebSite","name":"Space Waves","url":"https://spacewaves.github.io/","inLanguage":"en"},
+{"@type":"VideoGame","name":"Space Waves","url":"https://spacewaves.github.io/","description":"A one-button browser arcade game where you steer a wave through neon tunnels.","genre":["Arcade","Skill game"],"gamePlatform":["Web browser","Desktop","Mobile"],"applicationCategory":"Game","operatingSystem":"Any","playMode":"SinglePlayer","inLanguage":"en","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}},
+{"@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Is Space Waves free to play?","acceptedAnswer":{"@type":"Answer","text":"Yes. It runs in your browser and costs nothing. There is nothing to download or install."}},
+{"@type":"Question","name":"Which keys control the wave?","acceptedAnswer":{"@type":"Answer","text":"Hold Space, W, the Up arrow or the mouse button to climb. Release to dive. On touch screens, press and hold anywhere on the game."}},
+{"@type":"Question","name":"Can I play Space Waves on my phone?","acceptedAnswer":{"@type":"Answer","text":"Yes. The game scales to any screen and uses simple press-and-hold touch input."}},
+{"@type":"Question","name":"Is my best score saved?","acceptedAnswer":{"@type":"Answer","text":"Your best distance is stored in your own browser, so it stays on your device and is cleared if you wipe site data."}},
+{"@type":"Question","name":"Which difficulty should I start with?","acceptedAnswer":{"@type":"Answer","text":"Start on Easy. The tunnel is wide and slow, which lets you learn how quickly the wave turns."}}
+]}]}
+</script>
+<style>
+:root{--ink:#0d1020;--panel:#161a30;--line:#2a3058;--text:#e8ebff;--muted:#a3abd1;--wave:#5ef2e0;--hot:#ff5c8a}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--ink);color:var(--text);font:17px/1.7 "Segoe UI",system-ui,-apple-system,Roboto,sans-serif}
+a{color:var(--wave)}
+:focus-visible{outline:3px solid var(--hot);outline-offset:2px}
+header,main,footer{max-width:980px;margin:0 auto;padding:0 18px}
+header{display:flex;justify-content:space-between;align-items:center;padding-top:16px;padding-bottom:8px;flex-wrap:wrap;gap:8px}
+.logo{font-weight:800;font-size:1.25rem;letter-spacing:.02em;color:var(--text);text-decoration:none}
+.logo b{color:var(--wave)}
+nav a{margin-left:18px;color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--wave)}
+h1{font-size:clamp(1.7rem,4.5vw,2.6rem);line-height:1.15;margin:.6em 0 .3em}
+h2{font-size:1.5rem;margin:2.2em 0 .5em;line-height:1.25}
+h3{font-size:1.1rem;margin:1.4em 0 .2em}
+p{margin:.5em 0;max-width:72ch}
+.lead{color:var(--muted);font-size:1.1rem}
+.stage{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:10px;margin:18px 0}
+.frame{position:relative;background:#000;border-radius:8px;overflow:hidden}
+canvas{display:block;width:100%;height:auto;aspect-ratio:16/9;touch-action:none;cursor:pointer}
+.frame:fullscreen canvas{height:100%;aspect-ratio:auto}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;margin-top:10px}
+.modes{display:flex;gap:6px}
+button{font:inherit;font-size:.95rem;color:var(--text);background:#20264a;border:1px solid var(--line);border-radius:8px;padding:6px 14px;cursor:pointer}
+button[aria-pressed=true]{background:var(--wave);color:#06141a;border-color:var(--wave);font-weight:700}
+.stats{color:var(--muted);font-size:.95rem}
+.stats b{color:var(--text)}
+.ad{display:flex;align-items:center;justify-content:center;min-height:90px;margin:22px 0;border:1px dashed var(--line);border-radius:8px;color:#5b6290;font-size:.85rem}
+ul{padding-left:1.2em;max-width:72ch}
+li{margin:.35em 0}
+kbd{background:#20264a;border:1px solid var(--line);border-bottom-width:3px;border-radius:5px;padding:0 7px;font-size:.9em}
+details{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 16px;margin:8px 0;max-width:72ch}
+summary{cursor:pointer;font-weight:600}
+details p{color:var(--muted)}
+footer{border-top:1px solid var(--line);margin-top:48px;padding-top:20px;padding-bottom:40px;color:var(--muted);font-size:.9rem}
+footer a{margin-right:16px}
+</style>
+</head>
+<body>
+<header>
+  <a class="logo" href="/" aria-label="Space Waves home"><b>Space</b> Waves</a>
+  <nav aria-label="Main"><a href="#play">Play</a><a href="#how-to-play">How to play</a><a href="#tips">Tips</a><a href="#faq">FAQ</a></nav>
+</header>
+
+<main>
+  <h1>Space Waves: Free Online Wave Runner Game</h1>
+  <p class="lead">Steer a glowing wave through narrowing neon tunnels. One button, razor-thin gaps, and a distance score that begs for another try. Play Space Waves instantly in your browser, no download needed.</p>
+
+  <section id="play" class="stage" aria-label="Space Waves game">
+    <div class="frame" id="frame">
+      <canvas id="game" width="960" height="540" tabindex="0" role="img" aria-label="Space Waves game area. Hold Space or press and hold to climb, release to dive."></canvas>
+    </div>
+    <div class="bar">
+      <div class="modes" role="group" aria-label="Difficulty">
+        <button type="button" data-mode="easy" aria-pressed="false">Easy</button>
+        <button type="button" data-mode="normal" aria-pressed="true">Normal</button>
+        <button type="button" data-mode="hard" aria-pressed="false">Hard</button>
+      </div>
+      <div class="stats">Distance <b id="score">0</b> m &nbsp;|&nbsp; Best <b id="best">0</b> m</div>
+      <div><button type="button" id="pause">Pause</button> <button type="button" id="fs">Fullscreen</button></div>
+    </div>
+  </section>
+
+  <!-- Ad slot 1: paste your ad code here after approval -->
+  <aside class="ad" aria-label="Advertisement">Advertisement</aside>
+
+  <section id="how-to-play">
+    <h2>How to play Space Waves</h2>
+    <p>Your wave travels forward on its own at a steady pace. You only decide whether it climbs or dives. Stay inside the tunnel, slip past the magenta blocks, and see how many metres you can cover before the walls close in.</p>
+    <h3>Controls</h3>
+    <ul>
+      <li><strong>Computer:</strong> hold <kbd>Space</kbd>, <kbd>W</kbd>, <kbd>↑</kbd> or the left mouse button to climb. Let go to dive. Press <kbd>P</kbd> to pause.</li>
+      <li><strong>Phone or tablet:</strong> press and hold anywhere on the game area to climb, lift your finger to dive.</li>
+    </ul>
+    <h3>Difficulty modes</h3>
+    <ul>
+      <li><strong>Easy:</strong> slower speed and a roomy tunnel. Best for learning how sharply the wave turns.</li>
+      <li><strong>Normal:</strong> balanced speed with a tunnel that tightens in the first few seconds.</li>
+      <li><strong>Hard:</strong> fast, narrow and unforgiving, built for players chasing leaderboard-level distances.</li>
+    </ul>
+    <p>In every mode the corridor gradually narrows until it reaches a minimum width, so the longer you last, the more precise you must be.</p>
+  </section>
+
+  <section id="tips">
+    <h2>Tips for a longer run</h2>
+    <ul>
+      <li><strong>Tap in a rhythm.</strong> Short, even taps keep the wave near the middle of the tunnel and give you room to correct.</li>
+      <li><strong>Look ahead of the wave.</strong> Watch the next block, not the arrow. By the time a wall is under your nose it is too late to turn.</li>
+      <li><strong>Commit to the long slopes.</strong> On a steady incline, hold the button instead of stuttering. Constant input is smoother than nervous tapping.</li>
+      <li><strong>Pick the open half.</strong> Each magenta block fills the top or bottom half of the tunnel. Decide early which side you will fly through.</li>
+      <li><strong>Practice on Easy first.</strong> Learning the turning rate on a wide tunnel makes Normal and Hard feel much fairer.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>About this wave runner</h2>
+    <p>Wave runners are a small arcade genre built on a single idea: your craft always moves at a 45-degree angle, either up or down. There is no shooting, no power-ups and no inventory. This browser edition keeps that purity and adds a procedurally built tunnel, so no two runs share the same layout.</p>
+    <p>Because each run is generated on the fly, results come down to timing and nerve. Your best distance is saved locally in your browser, so you can come back and try to beat it.</p>
+  </section>
+
+  <aside class="ad" aria-label="Advertisement">Advertisement</aside>
+
+  <section id="faq">
+    <h2>Frequently asked questions</h2>
+    <details><summary>Is Space Waves free to play?</summary><p>Yes. It runs in your browser and costs nothing. There is nothing to download or install.</p></details>
+    <details><summary>Which keys control the wave?</summary><p>Hold Space, W, the Up arrow or the mouse button to climb. Release to dive. On touch screens, press and hold anywhere on the game.</p></details>
+    <details><summary>Can I play Space Waves on my phone?</summary><p>Yes. The game scales to any screen and uses simple press-and-hold touch input.</p></details>
+    <details><summary>Is my best score saved?</summary><p>Your best distance is stored in your own browser, so it stays on your device and is cleared if you wipe site data.</p></details>
+    <details><summary>Which difficulty should I start with?</summary><p>Start on Easy. The tunnel is wide and slow, which lets you learn how quickly the wave turns.</p></details>
+  </section>
+</main>
+
+<footer>
+  <p><a href="#play">Play</a><a href="/about.html">About</a><a href="/contact.html">Contact</a><a href="/privacy.html">Privacy Policy</a><a href="/terms.html">Terms of Use</a></p>
+  <p>&copy; 2026 Space Waves. An independent browser game.</p>
+</footer>
+
+<script>
+(function(){
+"use strict";
+var cv=document.getElementById("game"),ctx=cv.getContext("2d"),W=960,H=540,R=7;
+var MODES={easy:{g:125,min:84,v:250},normal:{g:104,min:64,v:305},hard:{g:88,min:52,v:360}};
+var mode="normal",state="ready",held=false,x,y,pts,blocks,trail,nextBlock,last=0,best=0,shake=0;
+var $s=document.getElementById("score"),$b=document.getElementById("best");
+function load(){try{best=+localStorage.getItem("sw_best_"+mode)||0}catch(e){best=0}$b.textContent=best}
+function save(){try{localStorage.setItem("sw_best_"+mode,best)}catch(e){}}
+function rnd(a,b){return a+Math.random()*(b-a)}
+function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
+function gap(px){var m=MODES[mode];return Math.max(m.min,m.g-Math.max(0,px)/60)}
+function center(px){for(var i=0;i<pts.length-1;i++){var a=pts[i],b=pts[i+1];if(px>=a.x&&px<=b.x)return a.c+(b.c-a.c)*(px-a.x)/(b.x-a.x)}return H/2}
+function extend(to){
+  while(pts[pts.length-1].x<to){
+    var l=pts[pts.length-1],dx=rnd(170,330),g=gap(l.x),md=dx*.8;
+    var c=l.x<500?H/2:clamp(l.c+rnd(-md,md),g+26,H-g-26),nx=l.x+dx;
+    pts.push({x:nx,c:c});
+    if(nx>nextBlock){
+      var gg=gap(nx),top=Math.random()<.5;
+      blocks.push(top?{x:nx-18,w:36,y0:-20,y1:c-gg*.15}:{x:nx-18,w:36,y0:c+gg*.15,y1:H+20});
+      nextBlock=nx+rnd(380,620);
+    }
+  }
+}
+function reset(){x=0;y=H/2;pts=[{x:-500,c:H/2},{x:500,c:H/2}];blocks=[];trail=[];nextBlock=900;extend(W+400);$s.textContent=0}
+function start(){if(state==="ready"||state==="dead"){reset();state="play"}}
+function die(){state="dead";shake=12;var d=Math.floor(x/10);if(d>best){best=d;save();$b.textContent=best}}
+function update(dt){
+  var v=MODES[mode].v;
+  x+=v*dt;y+=(held?-1:1)*v*dt;
+  trail.push({x:x,y:y});if(trail.length>60)trail.shift();
+  extend(x+W+200);
+  while(pts.length>3&&pts[1].x<x-W)pts.shift();
+  while(blocks.length&&blocks[0].x+blocks[0].w<x-W)blocks.shift();
+  var c=center(x),g=gap(x);
+  if(y-R<c-g||y+R>c+g)return die();
+  for(var i=0;i<blocks.length;i++){var b=blocks[i];
+    if(x+R>b.x&&x-R<b.x+b.w&&y+R>b.y0&&y-R<b.y1)return die()}
+  $s.textContent=Math.floor(x/10);
+}
+var stars=[];for(var i=0;i<70;i++)stars.push({x:Math.random()*W,y:Math.random()*H,s:Math.random()*1.8+.4});
+function draw(){
+  var cx=x-220,i,sx;
+  ctx.save();
+  if(shake>0){ctx.translate(rnd(-shake,shake),rnd(-shake,shake));shake*=.88;if(shake<.5)shake=0}
+  var bg=ctx.createLinearGradient(0,0,0,H);bg.addColorStop(0,"#0b0e22");bg.addColorStop(1,"#1a1238");
+  ctx.fillStyle=bg;ctx.fillRect(-20,-20,W+40,H+40);
+  ctx.fillStyle="#9fb0ff";
+  for(i=0;i<stars.length;i++){var s=stars[i],px=((s.x-cx*.15*s.s)%W+W)%W;ctx.globalAlpha=.25+s.s/3;ctx.fillRect(px,s.y,s.s,s.s)}
+  ctx.globalAlpha=1;
+  var step=6;
+  ctx.fillStyle="#1d2350";ctx.strokeStyle="#5ef2e0";ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(-10,-10);
+  for(sx=-10;sx<=W+10;sx+=step){var wx=cx+sx;ctx.lineTo(sx,center(wx)-gap(wx))}
+  ctx.lineTo(W+10,-10);ctx.closePath();ctx.fill();
+  ctx.beginPath();for(sx=-10;sx<=W+10;sx+=step){wx=cx+sx;var t=center(wx)-gap(wx);sx===-10?ctx.moveTo(sx,t):ctx.lineTo(sx,t)}ctx.stroke();
+  ctx.beginPath();ctx.moveTo(-10,H+10);
+  for(sx=-10;sx<=W+10;sx+=step){wx=cx+sx;ctx.lineTo(sx,center(wx)+gap(wx))}
+  ctx.lineTo(W+10,H+10);ctx.closePath();ctx.fill();
+  ctx.beginPath();for(sx=-10;sx<=W+10;sx+=step){wx=cx+sx;var u=center(wx)+gap(wx);sx===-10?ctx.moveTo(sx,u):ctx.lineTo(sx,u)}ctx.stroke();
+  ctx.fillStyle="#ff5c8a";
+  for(i=0;i<blocks.length;i++){var b=blocks[i];ctx.fillRect(b.x-cx,b.y0,b.w,b.y1-b.y0)}
+  if(trail.length>1){
+    ctx.lineWidth=5;ctx.lineJoin="round";
+    for(i=1;i<trail.length;i++){ctx.strokeStyle="rgba(94,242,224,"+(i/trail.length*.9)+")";
+      ctx.beginPath();ctx.moveTo(trail[i-1].x-cx,trail[i-1].y);ctx.lineTo(trail[i].x-cx,trail[i].y);ctx.stroke()}
+  }
+  if(state!=="dead"||shake>0){
+    ctx.save();ctx.translate(220,y);ctx.rotate(held?-Math.PI/4:Math.PI/4);
+    ctx.fillStyle="#fff";ctx.shadowColor="#5ef2e0";ctx.shadowBlur=14;
+    ctx.beginPath();ctx.moveTo(13,0);ctx.lineTo(-9,-8);ctx.lineTo(-9,8);ctx.closePath();ctx.fill();ctx.restore();
+  }
+  ctx.restore();
+  ctx.textAlign="center";ctx.fillStyle="#fff";
+  if(state==="ready"||state==="dead"||state==="pause"){
+    ctx.fillStyle="rgba(8,10,25,.55)";ctx.fillRect(0,0,W,H);ctx.fillStyle="#fff";
+    ctx.font="700 40px 'Segoe UI',system-ui,sans-serif";
+    ctx.fillText(state==="dead"?"Crashed at "+Math.floor(x/10)+" m":state==="pause"?"Paused":"Space Waves",W/2,H/2-14);
+    ctx.font="20px 'Segoe UI',system-ui,sans-serif";ctx.fillStyle="#a3abd1";
+    ctx.fillText(state==="pause"?"Press P or tap Pause to resume":state==="dead"?"Press and hold to try again":"Press and hold to start. Hold = climb, release = dive.",W/2,H/2+28);
+  }
+}
+function loop(t){
+  var dt=Math.min(.033,(t-last)/1000||0);last=t;
+  if(state==="play")update(dt);
+  draw();requestAnimationFrame(loop);
+}
+function press(){if(state==="pause")return;if(state!=="play")start();held=true}
+function release(){held=false}
+function togglePause(){if(state==="play"){state="pause";held=false}else if(state==="pause")state="play"}
+cv.addEventListener("pointerdown",function(e){e.preventDefault();cv.focus();press()});
+window.addEventListener("pointerup",release);
+cv.addEventListener("pointercancel",release);
+cv.addEventListener("contextmenu",function(e){e.preventDefault()});
+window.addEventListener("keydown",function(e){
+  var k=e.code;
+  if(k==="Space"||k==="KeyW"||k==="ArrowUp"){if(document.activeElement===cv||state==="play"){e.preventDefault();if(!e.repeat)press()}}
+  else if(k==="KeyP")togglePause();
+});
+window.addEventListener("keyup",function(e){if(e.code==="Space"||e.code==="KeyW"||e.code==="ArrowUp")release()});
+window.addEventListener("blur",function(){if(state==="play")togglePause()});
+document.getElementById("pause").addEventListener("click",togglePause);
+document.getElementById("fs").addEventListener("click",function(){
+  var f=document.getElementById("frame");
+  if(document.fullscreenElement)document.exitFullscreen();else if(f.requestFullscreen)f.requestFullscreen();
+});
+var btns=document.querySelectorAll("[data-mode]");
+btns.forEach(function(b){b.addEventListener("click",function(){
+  mode=b.getAttribute("data-mode");
+  btns.forEach(function(o){o.setAttribute("aria-pressed",o===b)});
+  state="ready";held=false;reset();load();
+})});
+reset();load();requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>
